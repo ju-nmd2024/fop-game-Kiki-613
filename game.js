@@ -167,5 +167,8 @@ function draw() {
   background(210, 170, 109);
   text(textStart, 190, 175);
   aladdin(50, y);
-  y = y + 1;
+
+  if (y < 120) {
+    y = y + 1;
+  }
 }
