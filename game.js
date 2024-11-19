@@ -160,13 +160,12 @@ function aladdin(x, y) {
   pop();
 }
 
-let x = 100;
+let textStart = "Okay Aladdin, let's get Jasmine!";
 
+let y = -150;
 function draw() {
-  background(255, 255, 255);
-  aladdin(x, 150);
-
-  if (x >= -20) {
-    x = x - 1;
-  }
+  background(210, 170, 109);
+  text(textStart, 190, 175);
+  aladdin(50, y);
+  y = y + 1;
 }
