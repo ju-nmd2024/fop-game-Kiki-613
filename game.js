@@ -1,10 +1,57 @@
 function setup() {
-  createCanvas(800, 600);
+  createCanvas(1000, 1000);
 }
 
-function draw() {
-  background(255, 140, 0);
+//Variables/
+// movement down, when space is not pressed/
+let gravity = 0.2;
+let acceleration = 0.2;
+let aladdinY = 100;
+let x = 300;
+let y = 100;
+
+function startScreen() {
+  push();
+  background(210, 170, 109);
+  fill(255, 255, 255);
+  text(
+    "Okay Aladdin, let's get Jasmine! Press SPACE to land safely.",
+    190,
+    170
+  );
+  fill(120, 0, 200);
+  rect(300, 210, 100, 50);
+  fill(255, 255, 255);
+  text("START", 330, 235);
+  pop();
 }
+
+function lostScreen() {
+  push();
+  background(210, 170, 109);
+  fill(255, 255, 255);
+  text("Oh no! Jasmine will have to save herself now.", 220, 170);
+  fill(120, 0, 200);
+  rect(300, 210, 100, 50);
+  fill(255, 255, 255);
+  text("RESTART", 323, 239);
+  pop();
+}
+
+function winScreen() {
+  push();
+  background(210, 170, 109);
+  fill(255, 255, 255);
+  text("Welcome to Agrabah. Prince up for Jasmine!", 230, 170);
+  fill(120, 0, 200);
+  rect(300, 210, 100, 50);
+  fill(255, 255, 255);
+  text("RESTART", 323, 239);
+  pop();
+}
+
+function gameScreen() {}
+
 function aladdin(x, y) {
   //aladdin upper body/
   push();
@@ -159,8 +206,6 @@ function aladdin(x, y) {
 
   pop();
 }
-
-let textStart = "Okay Aladdin, let's get Jasmine!";
 
 let y = -150;
 function draw() {
