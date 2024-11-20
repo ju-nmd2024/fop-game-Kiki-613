@@ -1,15 +1,16 @@
 function setup() {
-  createCanvas(1000, 1000);
+  createCanvas(1000, 800);
 }
 
-//Variables/
-// movement down, when space is not pressed/
-let gravity = 0.2;
+//Variables setup/
+let velocity = 0.3;
 let acceleration = 0.2;
-let aladdinY = 100;
-let x = 300;
-let y = 100;
+let aladdinY = 10;
+let x = 110;
+let y = 50;
+let state = "start";
 
+// Screens - start, game, result(win/lost)/
 function startScreen() {
   push();
   background(210, 170, 109);
@@ -22,7 +23,7 @@ function startScreen() {
   fill(120, 0, 200);
   rect(300, 210, 100, 50);
   fill(255, 255, 255);
-  text("START", 330, 235);
+  text("START", 330, 239);
   pop();
 }
 
@@ -35,6 +36,9 @@ function lostScreen() {
   rect(300, 210, 100, 50);
   fill(255, 255, 255);
   text("RESTART", 323, 239);
+  line(200, 700, 460, 700);
+  line(320, 550, 320, 700);
+  line(266, 600, 380, 600);
   pop();
 }
 
@@ -47,11 +51,44 @@ function winScreen() {
   rect(300, 210, 100, 50);
   fill(255, 255, 255);
   text("RESTART", 323, 239);
+  aladdin(x, 400);
   pop();
 }
 
-function gameScreen() {}
+function gameScreen() {
+  push();
+  background(210, 170, 109);
+  fill(0, 0, 0);
+  line(200, 700, 460, 700);
 
+  // code reference from Garret's ufo example /
+
+  aladdinY = aladdinY + velocity;
+  velocity = velocity + acceleration;
+
+  if (keyIsDown(32)) {
+    velocity = velocity - 0.7;
+  }
+  aladdin(x, aladdinY);
+
+  // condition for if landing velocity means loss or win /
+  if (aladdinY >= 400 && velocity > 4) {
+    state = "resultLost";
+  } else if (aladdinY >= 400 && velocity <= 7) {
+    state = "resultWin";
+  }
+  pop();
+}
+
+// function to reset variables after result screen /
+function reset() {
+  x = 110;
+  aladdinY = 10;
+  velocity = 0.3;
+  acceleration = 0.2;
+}
+
+// Character /
 function aladdin(x, y) {
   //aladdin upper body/
   push();
@@ -207,13 +244,42 @@ function aladdin(x, y) {
   pop();
 }
 
-let y = -150;
 function draw() {
-  background(210, 170, 109);
-  text(textStart, 190, 175);
-  aladdin(50, y);
+  if (state === "start") {
+    startScreen();
+  } else if (state === "game") {
+    gameScreen();
+  } else if (state === "resultLost") {
+    lostScreen();
+    reset();
+  } else if (state === "resultWin") {
+    winScreen();
+    reset();
+  }
+}
 
-  if (y < 120) {
-    y = y + 1;
+// switch between screens when buttons are clicked/
+function mouseClicked() {
+  if (
+    state === "start" &&
+    mouseX >= 300 &&
+    mouseX <= 400 &&
+    mouseY >= 210 &&
+    mouseY <= 260
+  ) {
+    state = "game";
+  } else if (
+    (state === "resultWin" &&
+      mouseX >= 300 &&
+      mouseX <= 400 &&
+      mouseY >= 210 &&
+      mouseY <= 260) ||
+    (state === "resultLost" &&
+      mouseX >= 300 &&
+      mouseX <= 400 &&
+      mouseY >= 210 &&
+      mouseY <= 260)
+  ) {
+    state = "start";
   }
 }
